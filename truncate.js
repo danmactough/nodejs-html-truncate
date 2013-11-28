@@ -132,45 +132,31 @@
                 startSlice = isShort ? 0 : defaultPos - options.slop,
                 endSlice = tailPos || (defaultPos + options.slop),
                 result;
-                function _debug(res) {
-                    console.log('%s: %s', res, eval(res));
-                }
 
             if (!options.truncateLastWord) {
-                console.log('');
-                ['string', 'isShort', 'defaultPos', 'slopPos', 'tailPos'].forEach(_debug);
 
                 substr = string.slice(startSlice, endSlice);
-                console.log('substr: %s', substr);
 
                 if (tailPos && substr.length <= tailPos) {
                     position = substr.length;
-                    console.log('=== elseif tailPos ===');
-                    ['position', 'string.substring(0, position)'].forEach(_debug);
                 }
                 else {
                     while ((result = WORD_BREAK_REGEX.exec(substr)) !== null) {
                         // a natural break position before the hard break position
                         if (result.index < slopPos) {
-                            console.log('=== if while ===');
                             position = defaultPos - (slopPos - result.index);
-                            ['result.index', 'position', 'string.substring(0, position)'].forEach(_debug);
                             // keep seeking closer to the hard break position
                             // unless a natural break is at position 0
                             if (result.index === 0 && defaultPos <= 1) break;
                         }
                         // a natural break position exactly at the hard break position
                         else if (result.index === slopPos) {
-                            console.log('=== ifelse while ===');
                             position = defaultPos;
-                            ['result.index', 'position', 'string.substring(0, position)'].forEach(_debug);
                             break; // seek no more
                         }
                         // a natural break position after the hard break position
                         else {
-                            console.log('=== else while ===');
                             position = defaultPos + (result.index - slopPos);
-                            ['result.index', 'position', 'string.substring(0, position)'].forEach(_debug);
                             break;  // seek no more
                         }
                     }
