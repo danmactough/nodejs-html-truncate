@@ -175,7 +175,7 @@
 
             if (!matches) {
                 if (total < maxLength) {
-                    content += string.substring(0, maxLength - total);
+                    content += string.substring(0, _getEndPosition(string));
                 }
                 break;
             }
